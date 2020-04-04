@@ -1,0 +1,6 @@
+com\mvnikitin\nettychat\client\Main.class
+com\mvnikitin\nettychat\client\Callback.class
+com\mvnikitin\nettychat\client\ClientHandler.class
+com\mvnikitin\nettychat\client\Network$1.class
+com\mvnikitin\nettychat\client\Controller.class
+com\mvnikitin\nettychat\client\Network.class
