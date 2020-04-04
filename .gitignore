@@ -1,5 +1,8 @@
 /.idea/
 /target/
+/lesson1/.idea/
+/lesson1/netty-chat-client/target/
+/lesson1/netty-chat-server/target/
 *.iml
 
 # Compiled class file
