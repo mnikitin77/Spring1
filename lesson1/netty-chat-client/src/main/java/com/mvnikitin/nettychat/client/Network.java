@@ -7,52 +7,38 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Network {
-    private String host;
-    private int port;
+    private static final String HOST = "localhost";
+    private static final int PORT = 8189;
     private SocketChannel channel;
 
-    @Autowired
-    private EventLoopGroup workerGroup;
-    @Autowired
-    private Bootstrap bootstrap;
-    @Autowired
-    private StringDecoder decoder;
-    @Autowired
-    private StringEncoder encoder;
-    @Autowired
-    private ClientHandler handler;
-
-    public Network(String host, int port) {
-        this.host = host;
-        this.port = port;
-    }
-
-    public void init(Callback messageReceived) {
-        handler.setOnMessageReceivedCallback(messageReceived);
-        new Thread(() -> {
+    public Network(Callback messageReceived) {
+        Thread t = new Thread(() -> {
+            EventLoopGroup workerGroup = new NioEventLoopGroup();
             try {
-                bootstrap.group(workerGroup)
+                Bootstrap b = new Bootstrap();
+                b.group(workerGroup)
                         .channel(NioSocketChannel.class)
                         .handler(new ChannelInitializer<SocketChannel>() {
                             @Override
                             public void initChannel(SocketChannel ch) throws Exception {
                                 channel = ch;
-                                ch.pipeline().addLast(decoder, encoder, handler);
+                                ch.pipeline().addLast(new StringDecoder(), new StringEncoder(), new ClientHandler(messageReceived));
                             }
                         });
-                ChannelFuture f = bootstrap.connect(host, port).sync();
+                ChannelFuture f = b.connect(HOST, PORT).sync();
                 f.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 workerGroup.shutdownGracefully();
             }
-        }).start();
+        });
+
+        t.setDaemon(true);
+        t.start();
+
     }
 
     public void sendMessage(String msg) {
@@ -60,6 +46,7 @@ public class Network {
     }
 
     public void close() {
+        //channel.writeAndFlush("/disconnect");
         channel.close();
     }
 }

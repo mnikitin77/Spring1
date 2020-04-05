@@ -2,12 +2,14 @@ package com.mvnikitin.nettychat.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ClientHandler extends SimpleChannelInboundHandler<String>{
 
     private Callback onMessageReceivedCallback;
+
+    public ClientHandler(Callback onMessageReceivedCallback) {
+        this.onMessageReceivedCallback = onMessageReceivedCallback;
+    }
 
     @Override
     protected void channelRead0(
@@ -16,9 +18,5 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>{
         if(onMessageReceivedCallback != null) {
             onMessageReceivedCallback.callback(s);
         }
-    }
-
-    public void setOnMessageReceivedCallback(Callback onMessageReceivedCallback) {
-        this.onMessageReceivedCallback = onMessageReceivedCallback;
     }
 }

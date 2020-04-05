@@ -21,15 +21,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        network = new Network((args) -> {
-//            textArea.appendText((String)args[0]);
-//            textArea.appendText("\n");
-//        });
-    }
-
-    public void setupNetwork(Network network) {
-        this.network = network;
-        network.init((args) -> {
+        network = new Network((args) -> {
             textArea.appendText((String)args[0]);
             textArea.appendText("\n");
         });
@@ -41,7 +33,7 @@ public class Controller implements Initializable {
         msgField.requestFocus();
     }
 
-    public void exit() {
+    public void exit(ActionEvent actionEvent) {
         network.close();
         Platform.exit();
     }
