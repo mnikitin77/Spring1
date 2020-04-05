@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation = "http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="chatServer" class="com.mvnikitin.nettychat.server.ChatServerImpl">
+        <constructor-arg value="8189"/>
+        <property name="bossGroup">
+            <ref bean="bossGroup"/>
+        </property>
+        <property name="workerGroup">
+            <ref bean="workerGroup"/>
+        </property>
+        <property name="bootstrap">
+            <ref bean="bootstrap"/>
+        </property>
+        <property name="encoder">
+            <ref bean="encoder"/>
+        </property>
+        <property name="decoder">
+            <ref bean="decoder"/>
+        </property>
+    </bean>
+
+    <bean id="bossGroup" class="io.netty.channel.nio.NioEventLoopGroup">
+        <constructor-arg value="1"/>
+    </bean>
+    <bean id="workerGroup" class="io.netty.channel.nio.NioEventLoopGroup"/>
+    <bean id="bootstrap" class="io.netty.bootstrap.ServerBootstrap"/>
+    <bean id="encoder" class="io.netty.handler.codec.string.StringEncoder"/>
+    <bean id="decoder" class="io.netty.handler.codec.string.StringDecoder"/>
+
+</beans>
