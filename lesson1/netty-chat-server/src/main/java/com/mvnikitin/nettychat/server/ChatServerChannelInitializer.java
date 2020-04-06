@@ -23,9 +23,6 @@ public class ChatServerChannelInitializer
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-        /***************************************
-         * НЕ РАБОТАЕТ :(
-         **************************************/
         MainHandler handler = createMainHandler();
         socketChannel.pipeline().addLast(decoder, encoder, handler);
     }

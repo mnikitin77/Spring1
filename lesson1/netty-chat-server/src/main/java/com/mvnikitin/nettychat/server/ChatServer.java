@@ -10,6 +10,6 @@ public interface ChatServer {
     void setBossGroup(EventLoopGroup bossGroup);
     void setWorkerGroup(EventLoopGroup workerGroup);
     void setBootstrap(ServerBootstrap bootstrap);
-    void setEncoder(StringEncoder encoder);
-    void setDecoder(StringDecoder decoder);
+//    void setEncoder(StringEncoder encoder);
+//    void setDecoder(StringDecoder decoder);
 }

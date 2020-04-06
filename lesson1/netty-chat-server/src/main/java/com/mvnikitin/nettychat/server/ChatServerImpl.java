@@ -18,20 +18,17 @@ public class ChatServerImpl implements ChatServer {
     private int port;
 
     @Autowired
-    ApplicationContext context;
-
-    @Autowired
     private EventLoopGroup bossGroup;
     @Autowired
     private EventLoopGroup workerGroup;
     @Autowired
     private ServerBootstrap bootstrap;
-    @Autowired
-    private StringDecoder decoder;
-    @Autowired
-    private StringEncoder encoder;
 //    @Autowired
-//    private ChatServerChannelInitializer channelInitializer;
+//    private StringDecoder decoder;
+//    @Autowired
+//    private StringEncoder encoder;
+    @Autowired
+    private ChatServerChannelInitializer channelInitializer;
 
     public ChatServerImpl(int port) {
         this.port = port;
@@ -52,31 +49,29 @@ public class ChatServerImpl implements ChatServer {
         this.bootstrap = bootstrap;
     }
 
-    @Override
-    public void setDecoder(StringDecoder decoder) {
-        this.decoder = decoder;
-    }
-
-    @Override
-    public void setEncoder(StringEncoder encoder) {
-        this.encoder = encoder;
-    }
+//    @Override
+//    public void setDecoder(StringDecoder decoder) {
+//        this.decoder = decoder;
+//    }
+//
+//    @Override
+//    public void setEncoder(StringEncoder encoder) {
+//        this.encoder = encoder;
+//    }
 
     @Override
     public void start() {
         try {
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-//                    .childHandler(channelInitializer);
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel socketChannel)
-                                throws Exception {
-                            //socketChannel.pipeline().addLast(decoder, encoder, new MainHandler());
-                            MainHandler handler = context.getBean(MainHandler.class);
-                            socketChannel.pipeline().addLast(decoder, encoder, handler);
-                        }
-                    });
+                    .childHandler(channelInitializer);
+//                    .childHandler(new ChannelInitializer<SocketChannel>() {
+//                        @Override
+//                        protected void initChannel(SocketChannel socketChannel)
+//                                throws Exception {
+//                            //socketChannel.pipeline().addLast(decoder, encoder, new MainHandler());
+//                        }
+//                    });
             ChannelFuture future = bootstrap.bind(port).sync();
             System.out.println("Сервер запущен!");
             future.channel().closeFuture().sync();

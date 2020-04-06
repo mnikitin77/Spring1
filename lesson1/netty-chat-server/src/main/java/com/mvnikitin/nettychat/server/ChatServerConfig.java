@@ -44,9 +44,4 @@ public class ChatServerConfig {
     public StringDecoder decoder() {
         return new StringDecoder();
     }
-
-//    @Bean(name="channelInitializer")
-//    public ChatServerChannelInitializer channelInitializer() {
-//        return new ChatServerChannelInitializer();
-//    }
 }
