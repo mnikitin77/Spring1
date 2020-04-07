@@ -3,10 +3,14 @@ package com.mvnikitin.nettychat.server;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Scope("prototype")
 public class MainHandler extends SimpleChannelInboundHandler<String> {
     private static final List<Channel> channels = new ArrayList<>();
     private static int newClientIndex = 1;
@@ -14,7 +18,7 @@ public class MainHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
-        System.out.println("Клиент подключился - " + ctx);
+        System.out.println("Клиент подключился: " + ctx);
         channels.add(ctx.channel());
         clientName = "Клиент #" + newClientIndex;
         newClientIndex++;
@@ -45,7 +49,7 @@ public class MainHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Клиент отвалился - " + ctx);
+        System.out.println("Клиент " + clientName + " покинул чат");
         channels.remove(ctx.channel());
         broadcastMessage("SERVER", "Клиент " + clientName + " покинул чат");
         super.channelInactive(ctx);
