@@ -62,4 +62,5 @@ public class AppConfig implements WebMvcConfigurer {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver);
         return engine;
-    }}
+    }
+}
