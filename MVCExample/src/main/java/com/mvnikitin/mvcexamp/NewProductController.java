@@ -26,7 +26,7 @@ public class NewProductController {
         return "product";
     }
 
-    @PostMapping()
+    @PostMapping
     public String newProduct(Product product) {
         productService.add(product);
         return "redirect:/";
