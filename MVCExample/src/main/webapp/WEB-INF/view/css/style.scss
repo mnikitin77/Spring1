@@ -1,0 +1,28 @@
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+
+$header_height: 200px;
+$copyright_height: 50px;
+
+
+.top {
+    background-color: $purple;
+    color: white;
+    height: $header_height;
+}
+
+.table__header__header {
+    letter-spacing: 0.2rem;
+    color: $purple;
+}
+
+.copyright {
+    height: $copyright_height;
+    flex-direction: column;
+    align-items: center;
+}
+
+.back {
+    color: $purple;
+    //text-decoration: none;
+}
