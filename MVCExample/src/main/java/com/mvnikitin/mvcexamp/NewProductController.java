@@ -21,8 +21,8 @@ public class NewProductController {
     }
 
     @GetMapping
-    public String formProduct(Model model) {
-        model.addAttribute("product", new Product());
+    public String formProduct(Model uiModel) {
+        uiModel.addAttribute("product", new Product());
         return "product";
     }
 
