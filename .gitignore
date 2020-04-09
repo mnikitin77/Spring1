@@ -3,6 +3,7 @@
 /lesson1/.idea/
 /lesson1/netty-chat-client/target/
 /lesson1/netty-chat-server/target/
+/MVCExample/target/
 *.iml
 
 # Compiled class file

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Custom styles -->
+    <link href="css/style.css"  rel="stylesheet">
+    <!-- Bootstrap styles -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Spring MVC Example</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header>
+        <div class="top container d-flex align-items-center">
+            <h1>Spring MVC Example</h1>
+        </div>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="flex-shrink-0 container">
+        <div class="pt-5 pb-4 mb-3">
+            <h2 class="table__header__header">Products</h2>
+            <p class="text-left h6">Below are all the products initially stored in the repository at the server. You also may add or remove product items.</p>
+        </div>
+        <!-- <form class="newitem__form" th:action="@{/add}" th:object="${product}" method="POST">
+            <div class="d-flex justify-content-end align-items-center container mb-3">
+                <div class="mr-3">
+                    <input type="text" class="form-control" id="inputProduct" placeholder="New product" th:field="*{name}">
+                </div>
+                <div class="mr-3">
+                    <input type="text" class="form-control" id="inputPrice" placeholder="Price" th:field="*{price}">
+                </div>
+                <div style="width: 150px;">
+                    <button type="submit" class="btn btn-outline-success btn-block">add</button>
+                </div>        
+            </div>
+        </form> -->
+        <form id="toNewProductForm" th:action="@{/product}" method="GET"></form>
+        <form id="deleteItem" class="deleteitem__form" action="#" method="POST">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-start align-items-center mx-3 mb-5" style="width: 180px;">
+                    <button type="submit" form="toNewProductForm" class="btn btn-outline-success btn-block">add product</button>
+                </div>
+                <div class="d-flex justify-content-end align-items-center container mb-5">
+                    <div class="mr-3" >
+                        <p class="text-secondary mb-0">To delete products mark items and press the 'delete' button.</p>
+                    </div>                
+                    <div style="width: 150px;">
+                        <button type="submit" form="deleteItem" class="btn btn-outline-danger btn-block">delete</button>
+                    </div>
+                </div>
+            </div>
+            <table class="container table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" style="width: 56px;">
+                        <div style="width: 32px;">
+                            <button type="reset" class="btn btn-outline-secondary btn-block btn-sm"><i class="fas fa-check"></i></button>
+                        </div>                
+                    </th>
+                    <th scope="col" class="text-center" style="width: 110px;">#</th>
+                    <th scope="col">Product</th>
+                    <th scope="col" class="text-center">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product: ${products}">
+                    <td><input type="checkbox" class="ml-2"></td>
+                    <th scope="row" th:text="${product.id}">ID</th>
+                    <td th:text="${product.name}">PRD</td>
+                    <td class="text-right" th:text="${product.price} + ' руб.'">PRC</td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </main>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <span class="text-muted">&copy;&nbsp;Все права защищены.</span>
+        </div>
+    </footer>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/0fac6e7586.js" crossorigin="anonymous"></script>
+  </body>
+</body>
+</html>
