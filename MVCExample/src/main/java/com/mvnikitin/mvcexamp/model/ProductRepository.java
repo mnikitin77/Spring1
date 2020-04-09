@@ -3,21 +3,21 @@ package com.mvnikitin.mvcexamp.model;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class ProductRepository {
+    private AtomicInteger idCounter = new AtomicInteger(10000000);
     Map<Integer, Product> products = new HashMap<>();
 
     public ProductRepository() {
-        Product product = new Product("Гречка \"Мистраль\", пакет 500г.", 65f);
-        products.put(product .getId(), product);
-        product = new Product("Макаронные изделия \"Тоскана\", коробка 500г.", 199f);
-        products.put(product .getId(), product);
-        product = new Product("Бумага туалетная \"54 метра\", рулон", 54f);
-        products.put(product .getId(), product);
+        add(new Product("Гречка \"Мистраль\", пакет 500г.", 65f));
+        add(new Product("Макаронные изделия \"Тоскана\", коробка 500г.", 199f));
+        add(new Product("Бумага туалетная \"54 метра\", рулон", 54f));
     }
 
     public void add(Product product) {
+        product.setId(idCounter.incrementAndGet());
         products.put(product.getId(), product);
     }
 
