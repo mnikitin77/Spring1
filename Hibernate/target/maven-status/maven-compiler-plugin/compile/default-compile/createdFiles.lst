@@ -1,0 +1,6 @@
+com\mvnikitin\hiberexamp\dao\HibernateExampleDataManager.class
+com\mvnikitin\hiberexamp\domain\PurchaseDetails.class
+com\mvnikitin\hiberexamp\domain\Purchase.class
+com\mvnikitin\hiberexamp\HibernateExample.class
+com\mvnikitin\hiberexamp\domain\Product.class
+com\mvnikitin\hiberexamp\domain\Customer.class
