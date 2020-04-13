@@ -14,8 +14,9 @@ public class PurchaseDetails {
     @Column
     private Date purchased;
 
-    @OneToOne(mappedBy = "details",
-            cascade = CascadeType.ALL)
+//    @OneToOne(mappedBy = "details",
+//            cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "details")
     Purchase purchase;
 
     public PurchaseDetails() {

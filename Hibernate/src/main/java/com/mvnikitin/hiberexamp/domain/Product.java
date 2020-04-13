@@ -19,10 +19,12 @@ public class Product {
     @Column
     private double price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "purchases_products",
             joinColumns = @JoinColumn(name = "product_id"),
+//            inverseJoinColumns = @JoinColumn(name = "purchase_id")
             inverseJoinColumns = @JoinColumn(name = "purchase_id"),
             foreignKey = @ForeignKey(name = "fk_product_id")
     )

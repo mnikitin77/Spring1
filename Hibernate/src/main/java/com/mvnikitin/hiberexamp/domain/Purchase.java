@@ -16,12 +16,17 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "customer_id",
             foreignKey = @ForeignKey(name = "fk_customer_id"))
+    @ManyToOne
+//    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name = "purchases_products",
             joinColumns = @JoinColumn(name = "purchase_id"),

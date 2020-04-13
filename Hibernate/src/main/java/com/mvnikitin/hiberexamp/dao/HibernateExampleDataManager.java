@@ -123,7 +123,7 @@ public class HibernateExampleDataManager {
 
     public boolean removeProduct(Long id) {
         EntityManager em = factory.createEntityManager();
-        Product product = getProduct(id).get(0);
+        Product product = em.find(Product.class, id);
         em.getTransaction().begin();
         try {
             em.remove(product);
@@ -138,9 +138,13 @@ public class HibernateExampleDataManager {
 
     public boolean removeCustomer(Long id) {
         EntityManager em = factory.createEntityManager();
-        Customer customer = getCustomer(id).get(0);
+        Customer customer = em.find(Customer.class, id);
         em.getTransaction().begin();
         try {
+            List<Purchase> purchases = customer.getPurchases();
+            for (Purchase p: purchases) {
+                em.remove(p);
+            }
             em.remove(customer);
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -153,7 +157,7 @@ public class HibernateExampleDataManager {
 
     public boolean removePurchase(Long id) {
         EntityManager em = factory.createEntityManager();
-        Purchase purchase = getPurchase(id).get(0);
+        Purchase purchase = em.find(Purchase.class, id);
         em.getTransaction().begin();
         try {
             em.remove(purchase);

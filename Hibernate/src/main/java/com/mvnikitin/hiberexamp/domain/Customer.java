@@ -17,7 +17,9 @@ public class Customer {
     private String name;
 
     @OneToMany(mappedBy = "customer",
-            cascade = CascadeType.ALL)
+//            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.REFRESH, CascadeType.DETACH})
     private List<Purchase> purchases;
 
     public Customer() {
