@@ -11,15 +11,13 @@ public class Customer {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(length = 255)
     private String name;
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL)
-//            cascade = CascadeType.MERGE)
-//            cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Purchase> purchases;
 
     public Customer() {
@@ -40,11 +38,11 @@ public class Customer {
         purchases.remove(purchase);
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

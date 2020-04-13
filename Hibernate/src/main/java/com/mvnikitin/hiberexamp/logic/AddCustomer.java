@@ -17,7 +17,7 @@ public class AddCustomer implements Query{
             if(userInput.equals("cancel")) {
                 return null;
             } else {
-                int result = dataManager.addCustomer(userInput);
+                Long result = dataManager.addCustomer(userInput);
                 return (result > 0) ?
                         "the customer added successfully, id = " + result :
                         "the operation failed";

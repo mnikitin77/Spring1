@@ -20,8 +20,9 @@ public class AddPurchase implements Query {
             if(userInput.equals("cancel")) {
                 return null;
             }
-            int customerId = Integer.parseInt(userInput);
-            List<Integer> productIds = new ArrayList<>();
+
+            Long customerId = Long.parseLong(userInput);
+            List<Long> productIds = new ArrayList<>();
 
             System.out.println("enter the product's id one by one,\n" +
                     "to finish type \"ok\" (or \"cancel\" to quit): ");
@@ -34,9 +35,9 @@ public class AddPurchase implements Query {
                 if (userInput.equals("ok")) {
                     break;
                 }
-                productIds.add(Integer.parseInt(userInput));
+                productIds.add(Long.parseLong(userInput));
             }
-            int result = dataManager.addPurchase(customerId, productIds);
+            Long result = dataManager.addPurchase(customerId, productIds);
             return (result > 0) ?
                     "the purchase added successfully, id = " + result :
                     "the operation failed";

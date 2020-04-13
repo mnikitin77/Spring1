@@ -22,11 +22,10 @@ public class GetPurchases implements Query {
                 return dataManager.getPurchases();
             } else if (userInput.equals("customer")) {
                 System.out.println("enter the customer's id: ");
-                int customerId = Integer.parseInt(reader.readLine());
+                Long customerId = Long.parseLong(reader.readLine());
                 return dataManager.getPurchases(customerId);
             } else {
-                // query by id
-                return dataManager.getPurchase(Integer.parseInt(userInput));
+                return dataManager.getPurchase(Long.parseLong(userInput));
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

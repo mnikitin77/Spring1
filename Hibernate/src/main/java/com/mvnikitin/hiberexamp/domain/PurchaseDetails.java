@@ -9,24 +9,23 @@ public class PurchaseDetails {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column
     private Date purchased;
 
     @OneToOne(mappedBy = "details",
             cascade = CascadeType.ALL)
-//            cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     Purchase purchase;
 
     public PurchaseDetails() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -18,8 +18,8 @@ public class RemoveCustomer implements Query {
             if(userInput.equals("cancel")) {
                 return null;
             } else {
-                return (dataManager.removeCustomer(Integer
-                        .parseInt(userInput))) ?
+                return (dataManager.removeCustomer(Long
+                        .parseLong(userInput))) ?
                         "the customer successfully deleted" :
                         "the operation failed";
             }

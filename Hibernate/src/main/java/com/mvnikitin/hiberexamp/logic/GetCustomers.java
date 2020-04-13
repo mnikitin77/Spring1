@@ -20,8 +20,7 @@ public class GetCustomers implements Query {
             } else if (userInput.equals("all")) {
                 return dataManager.getCustomers();
             } else {
-                // query by id
-                return dataManager.getCustomer(Integer.parseInt(userInput));
+                return dataManager.getCustomer(Long.parseLong(userInput));
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

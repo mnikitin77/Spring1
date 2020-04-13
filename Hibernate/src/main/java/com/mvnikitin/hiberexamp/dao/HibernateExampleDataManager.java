@@ -31,7 +31,7 @@ public class HibernateExampleDataManager {
                 .getResultList();
     }
 
-    public List<Customer> getCustomer(int id) {
+    public List<Customer> getCustomer(Long id) {
         List<Customer> result = new ArrayList<>();
         EntityManager em = factory.createEntityManager();
         result.add(em.find(Customer.class, id));
@@ -44,7 +44,7 @@ public class HibernateExampleDataManager {
                 .getResultList();
     }
 
-    public List<Product> getProduct(int id) {
+    public List<Product> getProduct(Long id) {
         List<Product> result = new ArrayList<>();
         EntityManager em = factory.createEntityManager();
         result.add(em.find(Product.class, id));
@@ -57,21 +57,21 @@ public class HibernateExampleDataManager {
                 .getResultList();
     }
 
-    public List<Purchase> getPurchases(int customerId) {
+    public List<Purchase> getPurchases(Long customerId) {
         List<Customer> list = getCustomer(customerId);
         EntityManager em = factory.createEntityManager();
         return em.createNamedQuery("Purchase.findByCustomer", Purchase.class)
                 .setParameter("customer", list.get(0)).getResultList();
     }
 
-    public List<Purchase> getPurchase(int id) {
+    public List<Purchase> getPurchase(Long id) {
         List<Purchase> result = new ArrayList<>();
         EntityManager em = factory.createEntityManager();
         result.add(em.find(Purchase.class, id));
         return result;
     }
 
-    public int addCustomer(String name) {
+    public Long addCustomer(String name) {
         Customer customer = new Customer(name);
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
@@ -81,12 +81,12 @@ public class HibernateExampleDataManager {
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
-            return -1;
+            return -1L;
         }
         return customer.getId();
     }
 
-    public int addProduct(String name, double price) {
+    public Long addProduct(String name, double price) {
         Product product = new Product(name, price);
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
@@ -96,36 +96,32 @@ public class HibernateExampleDataManager {
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
-            return -1;
+            return -1L;
         }
         return product.getId();
     }
 
-    public int addPurchase(int customerId, List<Integer> purchaseItems) {
+    public Long addPurchase(Long customerId, List<Long> purchaseItems) {
         Purchase purchase = new Purchase();
-        Customer customer = getCustomer(customerId).get(0);
-
-        for (int id: purchaseItems) {
-            purchase.addProduct(getProduct(id).get(0));
-        }
-        customer.addPurchase(purchase);
-
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
         try {
-//            em.persist(purchase.getDetails());
-//            em.persist(purchase);
-            em.merge(customer);
+            Customer customer = em.find(Customer.class, customerId);
+            for (long id: purchaseItems) {
+                purchase.addProduct(em.find(Product.class, id));
+            }
+            customer.addPurchase(purchase);
+            em.persist(purchase);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
-            return -1;
+            return -1L;
         }
         return purchase.getId();
     }
 
-    public boolean removeProduct(int id) {
+    public boolean removeProduct(Long id) {
         EntityManager em = factory.createEntityManager();
         Product product = getProduct(id).get(0);
         em.getTransaction().begin();
@@ -140,7 +136,7 @@ public class HibernateExampleDataManager {
         return true;
     }
 
-    public boolean removeCustomer(int id) {
+    public boolean removeCustomer(Long id) {
         EntityManager em = factory.createEntityManager();
         Customer customer = getCustomer(id).get(0);
         em.getTransaction().begin();
@@ -155,7 +151,7 @@ public class HibernateExampleDataManager {
         return true;
     }
 
-    public boolean removePurchase(int id) {
+    public boolean removePurchase(Long id) {
         EntityManager em = factory.createEntityManager();
         Purchase purchase = getPurchase(id).get(0);
         em.getTransaction().begin();

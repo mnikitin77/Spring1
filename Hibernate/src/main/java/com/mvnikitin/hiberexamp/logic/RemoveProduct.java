@@ -18,8 +18,8 @@ public class RemoveProduct implements Query{
             if(userInput.equals("cancel")) {
                 return null;
             } else {
-                return (dataManager.removeProduct(Integer
-                        .parseInt(userInput))) ?
+                return (dataManager.removeProduct(Long
+                        .parseLong(userInput))) ?
                         "the product successfully deleted" :
                         "the operation failed";
             }

@@ -18,8 +18,8 @@ public class RemovePurchase implements Query {
             if(userInput.equals("cancel")) {
                 return null;
             } else {
-                return (dataManager.removePurchase(Integer
-                        .parseInt(userInput))) ?
+                return (dataManager.removePurchase(Long
+                        .parseLong(userInput))) ?
                         "the purchase successfully deleted" :
                         "the operation failed";
             }

@@ -20,8 +20,7 @@ public class GetProducts implements Query{
             } else if (userInput.equals("all")) {
                 return dataManager.getProducts();
             } else {
-                // query by id
-                return dataManager.getProduct(Integer.parseInt(userInput));
+                return dataManager.getProduct(Long.parseLong(userInput));
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

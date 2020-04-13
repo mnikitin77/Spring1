@@ -11,7 +11,7 @@ public class Product {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(length = 255)
     private String name;
@@ -20,8 +20,6 @@ public class Product {
     private double price;
 
     @ManyToMany(cascade = CascadeType.ALL)
-//    @ManyToMany(cascade = CascadeType.MERGE)
-//    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "purchases_products",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -34,19 +32,17 @@ public class Product {
         this.purchases = new ArrayList<>();
     }
 
-//    public Product(String name, double price, List<Purchase> purchases) {
     public Product(String name, double price) {
         this();
         this.name = name;
         this.price = price;
-//        this.purchases = purchases;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
