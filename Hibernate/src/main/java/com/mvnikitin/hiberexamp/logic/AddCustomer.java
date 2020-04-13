@@ -17,8 +17,10 @@ public class AddCustomer implements Query{
             if(userInput.equals("cancel")) {
                 return null;
             } else {
-                return "The customer added successfully, id = " +
-                        dataManager.addCustomer(userInput);
+                int result = dataManager.addCustomer(userInput);
+                return (result > 0) ?
+                        "the customer added successfully, id = " + result :
+                        "the operation failed";
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

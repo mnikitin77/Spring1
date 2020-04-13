@@ -19,7 +19,7 @@ public class QueryManager {
         executors.put("get customers", new GetCustomers());
         executors.put("get products", new GetProducts());
         executors.put("get purchases", new GetPurchases());
-        executors.put("remove client", new RemoveClient());
+        executors.put("remove customer", new RemoveCustomer());
         executors.put("remove product", new RemoveProduct());
         executors.put("remove purchase", new RemovePurchase());
 

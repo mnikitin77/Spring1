@@ -20,6 +20,8 @@ public class Product {
     private double price;
 
     @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = CascadeType.MERGE)
+//    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "purchases_products",
             joinColumns = @JoinColumn(name = "product_id"),

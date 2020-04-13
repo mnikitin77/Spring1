@@ -17,8 +17,8 @@ public class HelpQuery implements Query {
                 "* get products - get all products or a product                                 *\n" +
                 "* get purchases - get all purchases, a customer's purchases, a purchase by id  *\n" +
                 "* remove customer - remove a customer by id                                    *\n" +
-                "* remove product - remove a product                                            *\n" +
-                "* remove purchase - get all purchases of a customer                            *\n" +
+                "* remove product - remove a product by id                                      *\n" +
+                "* remove purchase - remove a purchase of a customer                            *\n" +
                 "* cancel - cancel the current command (if applicable)                          *\n" +
                 "* exit - close the program                                                     *\n" +
                 "********************************************************************************\n";

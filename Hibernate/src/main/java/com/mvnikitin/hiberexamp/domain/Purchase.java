@@ -16,12 +16,16 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+//    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "customer_id",
             foreignKey = @ForeignKey(name = "fk_customer_id"))
     private Customer customer;
 
     @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = CascadeType.MERGE)
+//    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "purchases_products",
             joinColumns = @JoinColumn(name = "purchase_id"),
@@ -31,6 +35,7 @@ public class Purchase {
     private List<Product> proucts;
 
     @OneToOne(cascade = CascadeType.ALL)
+//    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "details_id",
             foreignKey = @ForeignKey(name = "fk_purchases_details_id"))
     private PurchaseDetails details;
@@ -39,6 +44,7 @@ public class Purchase {
         proucts = new ArrayList<>();
         details = new PurchaseDetails();
         details.setPurchased(new Date());
+        details.setPurchase(this);
     }
 
     public void addProduct (Product product){
@@ -85,8 +91,9 @@ public class Purchase {
     public String toString() {
         return "Purchase{" +
                 "id=" + id +
-                ", customer=" + customer != null ?
-                String.valueOf(customer.getId()) : null +
+                ", customer=" + customer.getId() +
+//                ", customer=" + customer != null ?
+//                String.valueOf(customer.getId()) : null +
                 ", details=" + details +
                 ", proucts=" + proucts +
                 '}';

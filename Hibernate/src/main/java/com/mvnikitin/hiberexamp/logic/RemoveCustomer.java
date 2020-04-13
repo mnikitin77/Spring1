@@ -6,10 +6,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class RemovePurchase implements Query {
+public class RemoveCustomer implements Query {
     @Override
     public Object execute(HibernateExampleDataManager dataManager) {
-        System.out.println("enter the purchase's id\n" +
+        System.out.println("enter the customer's id\n" +
                 "(- to quit the command type \"cancel\")");
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
@@ -18,9 +18,9 @@ public class RemovePurchase implements Query {
             if(userInput.equals("cancel")) {
                 return null;
             } else {
-                return (dataManager.removePurchase(Integer
+                return (dataManager.removeCustomer(Integer
                         .parseInt(userInput))) ?
-                        "the purchase successfully deleted" :
+                        "the customer successfully deleted" :
                         "the operation failed";
             }
         } catch (IOException e) {

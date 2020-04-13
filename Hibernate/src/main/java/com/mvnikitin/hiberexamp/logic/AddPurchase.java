@@ -25,7 +25,7 @@ public class AddPurchase implements Query {
 
             System.out.println("enter the product's id one by one,\n" +
                     "to finish type \"ok\" (or \"cancel\" to quit): ");
-            
+
             while (true) {
                 userInput = reader.readLine();
                 if (userInput.equals("cancel")) {
@@ -36,8 +36,10 @@ public class AddPurchase implements Query {
                 }
                 productIds.add(Integer.parseInt(userInput));
             }
-            return "The purchase added successfully, id = " +
-                    dataManager.addPurchase(customerId, productIds);
+            int result = dataManager.addPurchase(customerId, productIds);
+            return (result > 0) ?
+                    "the purchase added successfully, id = " + result :
+                    "the operation failed";
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

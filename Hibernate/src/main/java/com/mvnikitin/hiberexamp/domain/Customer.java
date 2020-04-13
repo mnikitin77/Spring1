@@ -18,6 +18,8 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL)
+//            cascade = CascadeType.MERGE)
+//            cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Purchase> purchases;
 
     public Customer() {

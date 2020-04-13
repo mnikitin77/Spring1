@@ -16,6 +16,7 @@ public class PurchaseDetails {
 
     @OneToOne(mappedBy = "details",
             cascade = CascadeType.ALL)
+//            cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH})
     Purchase purchase;
 
     public PurchaseDetails() {

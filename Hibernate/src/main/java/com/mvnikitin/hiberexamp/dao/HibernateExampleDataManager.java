@@ -13,9 +13,6 @@ import java.util.List;
 public class HibernateExampleDataManager {
     private EntityManagerFactory factory;
 
-//    List<Product> products = new ArrayList<>();
-//    List<Customer> customers = new ArrayList<>();
-
     public HibernateExampleDataManager() {
         factory = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -84,6 +81,7 @@ public class HibernateExampleDataManager {
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+            return -1;
         }
         return customer.getId();
     }
@@ -98,6 +96,7 @@ public class HibernateExampleDataManager {
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+            return -1;
         }
         return product.getId();
     }
@@ -114,29 +113,67 @@ public class HibernateExampleDataManager {
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
         try {
+//            em.persist(purchase.getDetails());
+//            em.persist(purchase);
             em.merge(customer);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+            return -1;
         }
         return purchase.getId();
+    }
+
+    public boolean removeProduct(int id) {
+        EntityManager em = factory.createEntityManager();
+        Product product = getProduct(id).get(0);
+        em.getTransaction().begin();
+        try {
+            em.remove(product);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removeCustomer(int id) {
+        EntityManager em = factory.createEntityManager();
+        Customer customer = getCustomer(id).get(0);
+        em.getTransaction().begin();
+        try {
+            em.remove(customer);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removePurchase(int id) {
+        EntityManager em = factory.createEntityManager();
+        Purchase purchase = getPurchase(id).get(0);
+        em.getTransaction().begin();
+        try {
+            em.remove(purchase);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     private void populateDBwithInitialData() {
         List<Product> products = new ArrayList<>();
         List<Customer> customers = new ArrayList<>();
 
-//        products.add(new Product("Морковь, пакет 1 кг", 67.0,
-//                new ArrayList()));
-//        products.add(new Product("Лук, пакет 1кг", 89.0,
-//                new ArrayList()));
-//        products.add(new Product("Апельсины крупные, пакет 1кг", 135.0,
-//                new ArrayList()));
-//        products.add(new Product("Соль морская крупная, упакока 250г", 299.0,
-//                new ArrayList()));
-//        products.add(new Product("Картофель, пакет 1кг", 59.0,
-//                new ArrayList()));
         products.add(new Product("Морковь, пакет 1 кг", 67.0));
         products.add(new Product("Лук, пакет 1кг", 89.0));
         products.add(new Product("Апельсины крупные, пакет 1кг", 135.0));
@@ -201,8 +238,5 @@ public class HibernateExampleDataManager {
             em.getTransaction().rollback();
             e.printStackTrace();
         }
-//        finally {
-//            em.close();
-//        }
     }
 }

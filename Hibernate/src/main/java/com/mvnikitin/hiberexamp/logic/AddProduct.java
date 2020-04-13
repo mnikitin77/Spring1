@@ -25,8 +25,10 @@ public class AddProduct implements Query {
                 return null;
             }
 
-            return "The product added successfully, id = " +
-                    dataManager.addProduct(name, Double.parseDouble(price));
+            int result = dataManager.addProduct(name, Double.parseDouble(price));
+            return (result > 0) ?
+                    "the product added successfully, id = " + result :
+                    "the operation failed";
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

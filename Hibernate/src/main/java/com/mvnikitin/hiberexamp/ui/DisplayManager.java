@@ -21,7 +21,7 @@ public class DisplayManager {
         displays.put("get customers", displayCustomers);
         displays.put("get products", displayProducts);
         displays.put("get purchases", displayPurchases);
-        displays.put("remove client", displayString);
+        displays.put("remove customer", displayString);
         displays.put("remove product", displayString);
         displays.put("remove purchase", displayString);
     }
