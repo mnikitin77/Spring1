@@ -11,6 +11,7 @@
 
     <modules>
         <module>MVCExample</module>
+        <module>Hibernate</module>
     </modules>
 
     <properties>
