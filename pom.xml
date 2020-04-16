@@ -12,6 +12,7 @@
     <modules>
         <module>MVCExample</module>
         <module>Hibernate</module>
+        <module>SpringData</module>
     </modules>
 
     <properties>

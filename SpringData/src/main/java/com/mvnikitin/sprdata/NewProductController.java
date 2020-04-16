@@ -1,7 +1,9 @@
-package com.mvnikitin.mvcexamp;
+package com.mvnikitin.sprdata;
 
-import com.mvnikitin.mvcexamp.model.Product;
-import com.mvnikitin.mvcexamp.model.ProductService;
+
+//import com.mvnikitin.mvcexamp.model.ProductService;
+import com.mvnikitin.sprdata.entities.Product;
+import com.mvnikitin.sprdata.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/product")
 public class NewProductController {
-    private com.mvnikitin.mvcexamp.model.ProductService productService;
+    private ProductService productService;
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -21,13 +23,13 @@ public class NewProductController {
 
     @GetMapping
     public String formProduct(Model uiModel) {
-        uiModel.addAttribute("product", new com.mvnikitin.mvcexamp.model.Product());
+        uiModel.addAttribute("product", new Product());
         return "product";
     }
 
     @PostMapping
     public String newProduct(Product product) {
-        productService.add(product);
+        productService.save(product);
         return "redirect:/";
     }
 }

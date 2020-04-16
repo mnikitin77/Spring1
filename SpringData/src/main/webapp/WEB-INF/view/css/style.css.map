@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAOA,AAAA,IAAI,CAAC;EACD,gBAAgB,EE8BV,OAAO;EF7Bb,KAAK,EAAE,KAAK;EACZ,MAAM,EAPM,KAAK;CAQpB;;AAED,AAAA,sBAAsB,CAAC;EACnB,cAAc,EAAE,MAAM;EACtB,KAAK,EEuBC,OAAO;CFtBhB;;AAED,AAAA,UAAU,CAAC;EACP,MAAM,EAfS,IAAI;EAgBnB,cAAc,EAAE,MAAM;EACtB,WAAW,EAAE,MAAM;CACtB",
+    "sources": [
+        "style.scss",
+        "bootstrap/_functions.scss",
+        "bootstrap/_variables.scss"
+    ],
+    "names": [],
+    "file": "style.css"
+}
