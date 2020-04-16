@@ -1,6 +1,5 @@
 package com.mvnikitin.mvcexamp;
 
-import com.mvnikitin.mvcexamp.model.Product;
 import com.mvnikitin.mvcexamp.model.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping
 public class MainPageController {
-    private ProductService productService;
+    private com.mvnikitin.mvcexamp.model.ProductService productService;
 
     @Autowired
     public void setProductService(ProductService productService) {

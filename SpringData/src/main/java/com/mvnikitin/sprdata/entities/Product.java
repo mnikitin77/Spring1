@@ -1,9 +1,20 @@
-package com.mvnikitin.mvcexamp.model;
+package com.mvnikitin.sprdata.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product {
-    private int id;
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
     private String name;
-    private float price;
+
+    @Column
+    private double price;
 
     public Product() {
     }
@@ -13,7 +24,7 @@ public class Product {
         this.price = price;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -21,7 +32,7 @@ public class Product {
         return name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -29,11 +40,11 @@ public class Product {
         this.name = name;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

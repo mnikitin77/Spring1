@@ -4,6 +4,7 @@
 /lesson1/netty-chat-client/target/
 /lesson1/netty-chat-server/target/
 /MVCExample/target/
+/SpringData/target/
 *.iml
 
 # Compiled class file

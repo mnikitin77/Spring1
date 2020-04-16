@@ -14,15 +14,15 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public void add(Product product) {
+    public void add(com.mvnikitin.mvcexamp.model.Product product) {
         productRepository.add(product);
     }
 
-    public Product remove (int id) {
+    public com.mvnikitin.mvcexamp.model.Product remove (int id) {
         return productRepository.remove(id);
     }
 
-    public List<Product> getProducts() {
+    public List<com.mvnikitin.mvcexamp.model.Product> getProducts() {
         return productRepository.getProducts();
     }
 
