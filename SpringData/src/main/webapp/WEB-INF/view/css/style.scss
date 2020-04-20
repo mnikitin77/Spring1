@@ -1,14 +1,23 @@
 @import "bootstrap/functions";
 @import "bootstrap/variables";
 
-$header_height: 200px;
+$header_height: 100px;
 $copyright_height: 50px;
 
+.menu {
+    background-color: $purple;
+    color: white;
+}
 
 .top {
     background-color: $purple;
     color: white;
-    height: $header_height;
+    
+    &__panel {
+        background-color: white;
+        color: $purple;
+        height: $header_height;    
+    }
 }
 
 .table__header__header {
@@ -24,5 +33,4 @@ $copyright_height: 50px;
 
 .back {
     color: $purple;
-    //text-decoration: none;
 }

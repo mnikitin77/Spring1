@@ -1,7 +1,17 @@
+.menu {
+  background-color: #6f42c1;
+  color: white;
+}
+
 .top {
   background-color: #6f42c1;
   color: white;
-  height: 200px;
+}
+
+.top__panel {
+  background-color: white;
+  color: #6f42c1;
+  height: 100px;
 }
 
 .table__header__header {
@@ -18,5 +28,9 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.back {
+  color: #6f42c1;
 }
 /*# sourceMappingURL=style.css.map */

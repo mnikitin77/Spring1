@@ -5,15 +5,17 @@ import com.mvnikitin.sprdata.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final static int DEFAULT_PAGE_SIZE = 5;
+
     private ProductRepository productRepository;
 
     @Autowired
@@ -23,16 +25,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Product> getAll() {
-        return productRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Product> getById(Long id) {
-        List<Product> list = new ArrayList<>();
-        list.add(productRepository.findById(id).orElse(null));
-        return list;
+    public Page<Product> findById(Optional <Long> id) {
+        Pageable pageable = PageRequest.of(0, 1);
+        if (id.isPresent()) {
+            return productRepository.findById(id.get(), pageable);
+        }
+        return null;
     }
 
     @Override
@@ -48,30 +46,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Product> findByPriceBetween(double priceMin, double priceMax) {
-        return productRepository.findByPriceBetween(priceMin, priceMax);
-    }
+    public Page<Product> findByPage(
+            Optional<Double> priceMin,
+            Optional<Double> priceMax,
+            Optional<Integer> pageNumber,
+            Optional<Integer> rowsPerPage) {
 
-    @Override
-    public long count() {
-        return productRepository.count();
-    }
+        Pageable pageable = PageRequest.of(
+                pageNumber.isPresent() ? pageNumber.get() - 1 : 0,
+                rowsPerPage.orElse(DEFAULT_PAGE_SIZE));
 
-    @Override
-    public long countByPriceBetween(double priceMin, double priceMax) {
-        return productRepository.countByPriceBetween(priceMin, priceMax);
-    }
-
-    @Override
-    public PageInfo findByPage(int pageNumber, int rowsPerPage) {
-        return new PageInfo(productRepository
-                .findAll(PageRequest.of(pageNumber, rowsPerPage)));
-    }
-
-    @Override
-    public PageInfo findByPage(int pageNumber, int rowsPerPage, double priceMin, double priceMax) {
-        return new PageInfo(productRepository
-                .findByPriceBetween(priceMin, priceMax, PageRequest.of(pageNumber, rowsPerPage)));
+        if (!priceMin.isPresent() && !priceMax.isPresent()) {
+            return productRepository.findAll(pageable);
+        } else if (!priceMin.isPresent()) {
+            return productRepository.findByPriceLessThan(priceMax.get(), pageable);
+        } else if (!priceMax.isPresent()) {
+            return productRepository.findByPriceGreaterThan(
+                    priceMin.get(), pageable);
+        }
+        return productRepository.findByPriceBetween(
+                priceMin.get(), priceMax.get(), pageable);
     }
 }

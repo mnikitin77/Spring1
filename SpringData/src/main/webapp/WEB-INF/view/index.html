@@ -5,47 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Custom styles -->
-    <!-- <link th:href="@{/resources/style.css}" href="css/style.css" rel="stylesheet" type="text/css"> -->
-    <link th:href="@{/resources/style.css}" rel="stylesheet" type="text/css">
+    <link  rel="stylesheet" th:href="@{/resources/style.css}" type="text/css">
     <!-- Bootstrap styles -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Spring MVC Example</title>
-    <!-- <style type="text/css">
-        .top {
-            background-color: #6f42c1;
-            color: white;
-            height: 200px;
-        }
-
-        .table__header__header {
-            letter-spacing: 0.2rem;
-            color: #6f42c1;
-        }
-
-        .copyright {
-            height: 50px;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-                -ms-flex-direction: column;
-                    flex-direction: column;
-            -webkit-box-align: center;
-                -ms-flex-align: center;
-                    align-items: center;
-        }
-    </style> -->
 </head>
 
 <body class="d-flex flex-column h-100">
-    <header>
-        <div class="top container d-flex align-items-center">
-            <h1>Spring MVC Example</h1>
-        </div>
+    <header th:replace="fragments/header.html :: header (~{::h1}, ${'/'})">
+           <h1>Spring MVC Example</h1>
     </header>
+<!--    <header>-->
+<!--        <div class="top container d-flex align-items-center">-->
+<!--            <h1>Spring MVC Example</h1>-->
+<!--        </div>-->
+<!--    </header>-->
 
     <!-- Begin page content -->
     <main role="main" class="flex-shrink-0 container">
-        <div class="pt-5 pb-4 mb-3">
-            <h2 class="table__header__header">Products</h2>
+        <div class="pt-3 pb-4 mb-3">
+            <h3 class="table__header__header">Products</h3>
             <p class="text-left h6">Below are all the products initially stored in the repository at the server. You also may add or remove product items.</p>
         </div>
         <!-- <form class="newitem__form" th:action="@{/add}" th:object="${product}" method="POST">
@@ -65,7 +44,7 @@
         <!-- <form id="deleteItem" class="deleteitem__form" action="#" method="POST"> -->
             <div class="d-flex justify-content-between mb-5">
                 <div class="d-flex justify-content-start align-items-center mx-3" style="width: 180px;">
-                    <button type="submit" form="toNewProductForm" class="btn btn-outline-success btn-block">add product</button>
+                    <button type="submit" form="toNewProductForm" class="btn btn-outline-primary btn-block">add product</button>
                 </div>
                 <div class="d-flex justify-content-end align-items-center container">
                     <!-- <div class="mr-3" >
@@ -92,32 +71,27 @@
                                 </div>
                             </div>            
                             <div style="width: 150px;">
-                                <button type="submit" class="btn btn-outline-success btn-block">apply</button>
+                                <button type="submit" class="btn btn-outline-primary btn-block">apply</button>
                             </div>                    
                         </div>
                         <div class="d-flex justify-content-end align-items-center w-100">
-                            <!-- <div class="w-25"> -->
                                 <p class="w-25 mb-1">Number of rows per page</p>
-                            <!-- </div> -->
                             <div>
-                                <div class="form-check form-check-inline mr-0 ml-3">
-                                    <input th:if="(${itemscount} != 10) and (${itemscount} != 20) and (${itemscount} != 50)" class="form-check-input" type="radio" name="rows" id="option1" value="5" checked>
-                                    <input th:if="(${itemscount} == 10) or (${itemscount} == 20) or (${itemscount} == 50)" class="form-check-input" type="radio" name="rows" id="option1" value="5">
+                                <div class="form-check form-check-inline mr-0 ml-3">                                    
+                                    <input class="form-check-input" type="radio" name="rows" id="option1" value="5"  
+                                        th:checked="(${itemscount} != 10) and (${itemscount} != 20) and (${itemscount} != 50)">
                                     <label class="form-check-label" for="option1">5</label>
                                 </div>
                                 <div class="form-check form-check-inline mr-0 ml-3">
-                                    <input th:if="${itemscount} == 10" class="form-check-input" type="radio" name="rows" id="option2" value="10" checked>
-                                    <input th:if="${itemscount} != 10" class="form-check-input" type="radio" name="rows" id="option2" value="10">
+                                    <input class="form-check-input" type="radio" name="rows" id="option2" value="10" th:checked="${itemscount} == 10">
                                     <label class="form-check-label" for="option2">10</label>
                                 </div>
                                 <div class="form-check form-check-inline mr-0 ml-3">
-                                    <input th:if="${itemscount} == 20" class="form-check-input" type="radio" name="rows" id="option3" value="20" checked>
-                                    <input th:if="${itemscount} != 20" class="form-check-input" type="radio" name="rows" id="option3" value="20">
+                                    <input class="form-check-input" type="radio" name="rows" id="option3" value="20" th:checked="${itemscount} == 20">
                                     <label class="form-check-label" for="option3">20</label>
                                 </div>
                                 <div class="form-check form-check-inline mr-0 ml-3">
-                                    <input th:if="${itemscount} == 50" class="form-check-input" type="radio" name="rows" id="option4" value="50" checked>
-                                    <input th:if="${itemscount} != 50" class="form-check-input" type="radio" name="rows" id="option4" value="50">
+                                    <input class="form-check-input" type="radio" name="rows" id="option4" value="50" th:checked="${itemscount} == 50">
                                     <label class="form-check-label" for="option4">50</label>
                                 </div>
                             </div>                        
@@ -125,48 +99,70 @@
                     </form>
                 </div>
             </div>
-            <table class="container table table-striped table-hover">
+            <table class="container table table-striped table-hover mb-5">
                 <thead>
-                <tr>
-                    <!-- <th scope="col" style="width: 56px;">
-                        <div style="width: 32px;">
-                            <button type="reset" class="btn btn-outline-secondary btn-block btn-sm"><i class="fas fa-check"></i></button>
-                        </div>                
-                    </th> -->
-                    <th scope="col" class="text-center" style="width: 110px;">#</th>
-                    <th scope="col">Product</th>
-                    <th scope="col" class="text-center">Price</th>
-                </tr>
+                    <tr>
+                        <!-- <th scope="col" style="width: 56px;">
+                            <div style="width: 32px;">
+                                <button type="reset" class="btn btn-outline-secondary btn-block btn-sm"><i class="fas fa-check"></i></button>
+                            </div>                
+                        </th> -->
+                        <th scope="col" style="width: 110px;">#</th>
+                        <th scope="col">Product</th>
+                        <th scope="col" class="text-right">Price</th>
+                        <th scope="col" style="width: 56px;">
+                            <div style="width: 32px;">
+                                <!-- <button type="reset" class="btn btn-outline-secondary btn-block btn-sm"><i class="fas fa-trash"></i></button> -->
+                                <i class="fas fa-trash"></i>
+                            </div>                
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product: ${products}">
-                    <!-- <td><input type="checkbox" class="ml-2"></td> -->
-                    <th scope="row" th:text="${product.id}">ID</th>
-                    <td th:text="${product.name}">PRD</td>
-                    <td class="text-right" th:text="${product.price} + ' руб.'">PRC</td>
-                </tr>
+                    <tr th:if="${pagecontent.hasContent()}" 
+                        th:each="product: ${pagecontent.getContent()}">
+                        <!-- <td><input type="checkbox" class="ml-2"></td> -->
+                        <td>
+                            <a th:href="@{/change(id=${product.id})}" style="text-decoration: none;"><span>[[${product.id}]]</span></a>
+                        </td>
+                        <td th:text="${product.name}">PRD</td>
+                        <td class="text-right" th:text="${product.price} + ' руб.'">PRC</td>
+                        <td>
+                            <a th:href="@{/del(id=${product.id})}" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></a>
+                        </td>
+                    </tr>
+                    <tr th:unless="${pagecontent.hasContent()}">
+                        <!-- <td><input type="checkbox" class="ml-2"></td> -->
+                        <td colspan="4" class="text-center">
+                            No items found
+                        </td>
+                    </tr>
                 </tbody>
             </table>    
-            <nav th:with="min=(${minprice} == null) ? '' : ${minprice}, max=(${maxprice} == null) ? '' : ${maxprice}, current=(${currpage} == null) ? 0 : ${currpage}" aria-label="paging">
+            <nav th:if="${pagecontent.hasContent()}"
+                th:with="min=${minprice} == null ? '' : ${minprice}, max=${maxprice} == null ? '' : ${maxprice}, current=${pagecontent.hasContent()} ? ${pagecontent.getNumber() + 1} : 0" aria-label="paging">
                 <ul class="pagination justify-content-center">
-                    <li th:class="'page-item' + (${current} lt 1 ? ' disabled' : '')">
-                        <a class="page-link" th:href="@{/} + '?minPrice=' + ${min} + '&maxPrice=' + ${max} + '&page=' + ${current} + '&rows=' + ${itemscount}" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>                                
-                    <li th:each="page: ${pages}" th:class="'page-item' + (${page} == (${current} + 1) ? ' active' : '')" th:attr="aria-current=(${page} == (${current} + 1) ? 'page')">
-                        <a class="page-link" th:href="@{/} + '?minPrice=' + ${min} + '&maxPrice=' + ${max} + '&page=' + ${page} + '&rows=' + ${itemscount}"><span th:text="${page}"></span><span th:attr="class=(${page} == (${current} + 1) ? 'sr-only')"></span></a>
-                    </li>
-                    <li th:class="'page-item' + (${current} ge ${pages.size() - 1} ? ' disabled' : '')">
-                        <a class="page-link" th:href="@{/} + '?minPrice=' + ${min} + '&maxPrice=' + ${max} + '&page=' + (${current} + 2) + '&rows=' + ${itemscount}">Next</a>
+                    <li class="page-item" th:classappend="${current le 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/(minPrice=${minprice}, maxPrice=${maxprice}, page=${current - 1}, rows=${itemscount})}" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>                                                
+                    <li th:each="page: ${#numbers.sequence(1, pagecontent.getTotalPages())}" 
+                        th:classappend="${page} == ${current} ? ' active'" 
+                        th:attr="aria-current=${page} == ${current} ? 'page'"
+                        class="page-item">
+                        <a class="page-link" 
+                            th:href="@{/(minPrice=${minprice}, maxPrice=${maxprice}, page=${page}, rows=${itemscount})}">[[${page}]]
+                            <span th:attr="class=(${page} == ${current} ? 'sr-only')"></span>
+                        </a>
+                    </li>                    
+                    <li class="page-item" th:classappend="${current} gt ${pagecontent.getTotalPages() - 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/(minPrice=${min}, maxPrice=${max}, page=${current + 1}, rows=${itemscount})}">Next</a>
                     </li>
                 </ul>
             </nav>
         <!-- </form> -->
     </main>
 
-    <footer class="footer mt-auto py-3">
-        <div class="container">
-            <span class="text-muted">&copy;&nbsp;Все права защищены.</span>
-        </div>
+    <footer th:replace="fragments/footer.html :: footer" class="footer mt-auto py-3">
     </footer>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -175,6 +171,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/0fac6e7586.js" crossorigin="anonymous"></script>
-  </body>
 </body>
 </html>

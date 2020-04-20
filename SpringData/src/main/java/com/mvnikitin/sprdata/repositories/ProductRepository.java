@@ -10,7 +10,12 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByPriceBetween(double priceMin, double priceMax);
-    Page<Product> findByPriceBetween(double priceMin, double priceMax, Pageable pageable);
-    Long countByPriceBetween(double priceMin, double priceMax);
+    Page<Product> findById(long id, Pageable pageable);
+    Page<Product> findByPriceBetween(double priceMin,
+                                     double priceMax,
+                                     Pageable pageable);
+    Page<Product> findByPriceGreaterThan(double priceMin,
+                                         Pageable pageable);
+    Page<Product> findByPriceLessThan(double priceMax,
+                                         Pageable pageable);
 }
