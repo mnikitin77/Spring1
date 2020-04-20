@@ -23,14 +23,6 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<Product> getById(Long id) {
-//        List<Product> list = new ArrayList<>();
-//        list.add(productRepository.findById(id).orElse(null));
-//        return list;
-//    }
-
     @Override
     @Transactional(readOnly = true)
     public Page<Product> findById(Optional <Long> id) {
