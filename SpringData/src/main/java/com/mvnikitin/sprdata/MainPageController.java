@@ -1,15 +1,15 @@
 package com.mvnikitin.sprdata;
 
 import com.mvnikitin.sprdata.entities.Product;
-import com.mvnikitin.sprdata.services.PageInfo;
 import com.mvnikitin.sprdata.services.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping
@@ -23,57 +23,50 @@ public class MainPageController {
 
     @GetMapping
     public String displayFilteredPage(Model uiModel,
-                                      @RequestParam(value = "minPrice",
-                                      required = false) Integer minPrice,
-                                      @RequestParam(value = "maxPrice",
-                                      required = false) Integer maxPrice,
+                                      @RequestParam(value = "minPrice")
+                                              Optional<Double> minPrice,
+                                      @RequestParam(value = "maxPrice")
+                                              Optional<Double> maxPrice,
                                       @RequestParam(value = "page",
-                                      required = false) Integer page,
+                                              defaultValue = "1")
+                                              Optional<Integer> page,
                                       @RequestParam(value = "rows",
-                                      required = false,
-                                      defaultValue = "5") Integer rows) {
-        double minBorder = minPrice != null ?
-                minPrice.doubleValue() : Double.MIN_VALUE;
-        double maxBorder = maxPrice != null ?
-                maxPrice.doubleValue() : Double.MAX_VALUE;
+                                              defaultValue = "5")
+                                              Optional<Integer> rows) {
+        Page<Product> resultPage = productService.findByPage(
+                minPrice, maxPrice, page, rows);
 
-        int pageNumber = page != null ? page - 1 : 0;
-        int rowsPerPage = rows != null ? rows :
-                (int) productService.countByPriceBetween(minBorder, maxBorder);
-
-        PageInfo pageInfo;
-
-        if (minBorder == Double.MIN_VALUE && maxBorder == Double.MAX_VALUE) {
-            pageInfo = productService.findByPage(pageNumber, rowsPerPage);
-        } else {
-            pageInfo = productService.findByPage(
-                    pageNumber, rowsPerPage, minBorder, maxBorder);
-        }
-
-        List<Integer> pages = new ArrayList<>();
-        for (int i = 1; i <= pageInfo.getTotalPages(); i++) {
-            pages.add(i);
-        }
-
-        uiModel.addAttribute("products", pageInfo.getPageContent());
-        uiModel.addAttribute("pages", pages);
-        uiModel.addAttribute("currpage", pageNumber);
-        uiModel.addAttribute("itemscount", rowsPerPage);
-        uiModel.addAttribute("minprice", minPrice);
-        uiModel.addAttribute("maxprice", maxPrice);
+        uiModel.addAttribute("pagecontent", resultPage);
+        uiModel.addAttribute("itemscount", rows.get());
+        uiModel.addAttribute("minprice",
+                minPrice.isPresent() ? minPrice.get().intValue() : null);
+        uiModel.addAttribute("maxprice",
+                maxPrice.isPresent() ? maxPrice.get().intValue() : null);
 
         return "index";
     }
 
     @GetMapping("/{id}")
-    public String displayProduct(Model uiModel, @PathVariable(value = "id") Long id) {
-        uiModel.addAttribute("products", productService.getById(id));
+    public String displayProduct(Model uiModel,
+                                 @PathVariable(value = "id") Optional <Long> id) {
+        uiModel.addAttribute("pagecontent", productService.findById(id));
         return "index";
     }
 
-    @PostMapping("/del")
-    public String deleteProduct(@RequestParam Long id) {
-        productService.remove(id);
-        return "index";
+    @GetMapping("/change")
+    public String displayFormForChange(
+            Model uiModel, @RequestParam(value = "id") Optional<Long> id) {
+        uiModel.addAttribute("product",
+                productService.findById(id).getContent().get(0));
+        uiModel.addAttribute("isupdate", true);
+        return "product";
+    }
+
+    @GetMapping("/del")
+    public String deleteProduct(@RequestParam(value = "id") Optional<Long> id) {
+        if (id.isPresent()) {
+            productService.remove(id.get());
+        }
+        return "redirect:/";
     }
 }

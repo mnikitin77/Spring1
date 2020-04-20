@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.ISpringTemplateEngine;
@@ -14,6 +16,8 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+@EnableWebMvc
+@Configuration
 @ComponentScan("com.mvnikitin.sprdata")
 public class AppConfig implements WebMvcConfigurer {
 
@@ -27,11 +31,6 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers (ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//        registry.addResourceHandler("/resources/**")
-//                .addResourceLocations("/").
-//                setCachePeriod(31556926);
-//        registry.addResourceHandler("/resources/**")
-//                .addResourceLocations("/resources/", "classpath:/css/");
     }
 
     @Bean
