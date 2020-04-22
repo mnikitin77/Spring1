@@ -1,0 +1,36 @@
+.menu {
+  background-color: #6f42c1;
+  color: white;
+}
+
+.top {
+  background-color: #6f42c1;
+  color: white;
+}
+
+.top__panel {
+  background-color: white;
+  color: #6f42c1;
+  height: 100px;
+}
+
+.table__header__header {
+  letter-spacing: 0.2rem;
+  color: #6f42c1;
+}
+
+.copyright {
+  height: 50px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.back {
+  color: #6f42c1;
+}
+/*# sourceMappingURL=style.css.map */
