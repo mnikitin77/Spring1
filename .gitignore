@@ -5,6 +5,7 @@
 /lesson1/netty-chat-server/target/
 /MVCExample/target/
 /SpringData/target/
+/Boot/target/
 *.iml
 
 # Compiled class file

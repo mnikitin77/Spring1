@@ -1,0 +1,19 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header(title, active_page)">
+    <nav class="top container navbar navbar-expand-lg navbar-dark">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item" th:classappend="${active_page == '/'} ? 'active'">
+                    <a class="nav-link" th:href="@{/}">Home<span th:if="${active_page == '/'}" class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" th:classappend="${active_page == '/product'} ? 'active'">
+                    <a class="nav-link" th:href="@{/product}">Add/Edit<span th:if="${active_page == '/product'}" class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="top__panel container d-flex align-items-center mt-5">
+        <h1 th:replace="${title}">Title</h1>
+    </div>
+</header>
+</html>
