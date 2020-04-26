@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -36,6 +37,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    @Transactional
+    public void remove(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Page<Product> findById(Optional <Long> id) {
         Pageable pageable = PageRequest.of(0, 1);
@@ -43,18 +68,6 @@ public class ProductServiceImpl implements ProductService {
             return productRepository.findById(id.get(), pageable);
         }
         return null;
-    }
-
-    @Override
-    @Transactional
-    public void save(Product product) {
-        productRepository.save(product);
-    }
-
-    @Override
-    @Transactional
-    public void remove(Long id) {
-        productRepository.deleteById(id);
     }
 
     @Override
