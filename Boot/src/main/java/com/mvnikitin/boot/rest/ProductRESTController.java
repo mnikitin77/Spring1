@@ -30,17 +30,15 @@ public class ProductRESTController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Product>> getProuctById(@PathVariable Long id) {
-        Optional<Product> result = productService.findById(id);
-        if (!result.isPresent()) {
-            throw new ProductNotFoundException("A product with ID=" +
-                    id + " does not exist");
-        }
+    public ResponseEntity<Product> getProuctById(@PathVariable Long id) {
+        Product result = productService.findById(id).orElseThrow(() ->
+                new ProductNotFoundException("A product with ID=" +
+                    id + " does not exist"));
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+    public ResponseEntity<String> createProduct(@RequestBody Product product) {
         if(productService.findById(product.getId()).isPresent()) {
             throw new ProductConflictException("The product with ID=" +
                     product.getId() + " already exists.");
@@ -57,22 +55,19 @@ public class ProductRESTController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateProduct(@RequestBody Product product) {
-        if(!productService.findById(product.getId()).isPresent()) {
-            throw new ProductNotFoundException("A product with ID=" +
-                    product.getId() + " does not exist");
-        }
+    public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
+        productService.findById(product.getId()).orElseThrow(() ->
+                new ProductNotFoundException("A product with ID=" +
+                        product.getId() + " does not exist"));
         productService.save(product);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<Product>> deleteProduct(@PathVariable Long id) {
-        Optional<Product> deletedProduct = productService.findById(id);
-        if(!deletedProduct.isPresent()) {
-            throw new ProductNotFoundException("A product with ID=" +
-                    id + " does not exist");
-        }
+    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
+        Product deletedProduct = productService.findById(id).orElseThrow(() ->
+                new ProductNotFoundException("A product with ID=" +
+                        id + " does not exist"));
         productService.remove(id);
         return ResponseEntity.ok(deletedProduct);
     }
