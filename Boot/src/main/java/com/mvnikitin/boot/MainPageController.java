@@ -23,22 +23,27 @@ public class MainPageController {
         this.productService = productService;
     }
 
+    @RequestMapping("/login")
+    public String onLogin() {
+        return "login";
+    }
+
     @GetMapping
-    public String displayFilteredPage(Model uiModel,
-                                      @RequestParam(value = "minPrice")
+    public String showProducts(Model uiModel,
+                               @RequestParam(value = "minPrice")
                                               Optional<Double> minPrice,
-                                      @RequestParam(value = "maxPrice")
+                               @RequestParam(value = "maxPrice")
                                               Optional<Double> maxPrice,
-                                      @RequestParam(value = "page",
+                               @RequestParam(value = "page",
                                               defaultValue = "1")
                                               Optional<Integer> page,
-                                      @RequestParam(value = "rows",
+                               @RequestParam(value = "rows",
                                               defaultValue = "5")
                                               Optional<Integer> rows,
-                                      @RequestParam(value = "sortby",
+                               @RequestParam(value = "sortby",
                                               defaultValue = "#")
                                               Optional<String> sortBy,
-                                      @RequestParam(value = "sortdir",
+                               @RequestParam(value = "sortdir",
                                               defaultValue = "true")
                                               Optional<Boolean> sortDirection) {
         Page<Product> resultPage = productService.findByPage(
@@ -60,14 +65,14 @@ public class MainPageController {
     }
 
     @GetMapping("/{id}")
-    public String displayProduct(Model uiModel,
-                                 @PathVariable(value = "id") Optional <Long> id) {
+    public String showProduct(Model uiModel,
+                              @PathVariable(value = "id") Optional <Long> id) {
         uiModel.addAttribute("pagecontent", productService.findById(id));
         return "index";
     }
 
-    @GetMapping("/change")
-    public String displayFormForChange(
+    @GetMapping("/edit")
+    public String showProuctForm(
             Model uiModel, @RequestParam(value = "id") Optional<Long> id) {
         uiModel.addAttribute("product",
                 productService.findById(id).getContent().get(0));

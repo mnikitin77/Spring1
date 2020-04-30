@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" class="h-100" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -15,11 +17,6 @@
     <header th:replace="fragments/header.html :: header (~{::h1}, ${'/'})">
            <h1>Spring MVC Example</h1>
     </header>
-<!--    <header>-->
-<!--        <div class="top container d-flex align-items-center">-->
-<!--            <h1>Spring MVC Example</h1>-->
-<!--        </div>-->
-<!--    </header>-->
 
     <!-- Begin page content -->
     <main role="main" class="flex-shrink-0 container">
@@ -27,33 +24,15 @@
             <h3 class="table__header__header">Products</h3>
             <p class="text-left h6">Below are all the products initially stored in the repository at the server. You also may add or remove product items.</p>
         </div>
-        <!-- <form class="newitem__form" th:action="@{/add}" th:object="${product}" method="POST">
-            <div class="d-flex justify-content-end align-items-center container mb-3">
-                <div class="mr-3">
-                    <input type="text" class="form-control" id="inputProduct" placeholder="New product" th:field="*{name}">
-                </div>
-                <div class="mr-3">
-                    <input type="text" class="form-control" id="inputPrice" placeholder="Price" th:field="*{price}">
-                </div>
-                <div style="width: 150px;">
-                    <button type="submit" class="btn btn-outline-success btn-block">add</button>
-                </div>        
-            </div>
-        </form> -->
         <form id="toNewProductForm" th:action="@{/product}" method="GET"></form>
-        <!-- <form id="deleteItem" class="deleteitem__form" action="#" method="POST"> -->
             <div class="d-flex justify-content-between mb-5">
                 <div class="d-flex justify-content-start align-items-center mx-3" style="width: 180px;">
-                    <button type="submit" form="toNewProductForm" class="btn btn-outline-primary btn-block">add product</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')" type="submit" form="toNewProductForm" class="btn btn-outline-primary btn-block">add product</button>
                 </div>
-                <div class="d-flex justify-content-end align-items-center container">
-                    <!-- <div class="mr-3" >
-                        <p class="text-secondary mb-0">To delete products mark items and press the 'delete' button.</p>
-                    </div> -->                
-                    
-                        <a class="btn btn-link" style="text-decoration: none;" data-toggle="collapse" href="#filterBox" role="button" aria-expanded="false" aria-controls="filterBox">
-                            filter&nbsp; <i class="fas fa-arrow-right"></i>
-                        </a>                                                    
+                <div class="d-flex justify-content-end align-items-center container">                        
+                    <a class="btn btn-link" style="text-decoration: none;" data-toggle="collapse" href="#filterBox" role="button" aria-expanded="false" aria-controls="filterBox">
+                        filter&nbsp; <i class="fas fa-arrow-right"></i>
+                    </a>                                                    
                 </div>
             </div>
             <div class="collapse" id="filterBox">
@@ -91,7 +70,6 @@
                                     <label class="form-check-label" for="sort2">desc</label>
                                 </div>
                             </div>
-                            <!-- <div class="d-flex justify-content-end align-items-center w-100"> -->
                             <div class="d-flex justify-content-end align-items-center w-50">
                                 <p class="h6 w-40 mb-1">Number of rows per page:</p>
 
@@ -124,17 +102,12 @@
             <table class="container table table-striped table-hover mb-5">
                 <thead>
                     <tr>
-                        <!-- <th scope="col" style="width: 56px;">
-                            <div style="width: 32px;">
-                                <button type="reset" class="btn btn-outline-secondary btn-block btn-sm"><i class="fas fa-check"></i></button>
-                            </div>                
-                        </th> -->
                         <th scope="col" style="width: 110px;">#</th>
                         <th scope="col">Product</th>
                         <th scope="col" class="text-right">Price</th>
-                        <th scope="col" style="width: 56px;">
+                        <th scope="col" style="width: 56px;"
+                            sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')">
                             <div style="width: 32px;">
-                                <!-- <button type="reset" class="btn btn-outline-secondary btn-block btn-sm"><i class="fas fa-trash"></i></button> -->
                                 <i class="fas fa-trash"></i>
                             </div>                
                         </th>
@@ -143,18 +116,16 @@
                 <tbody>
                     <tr th:if="${pagecontent.hasContent()}" 
                         th:each="product: ${pagecontent.getContent()}">
-                        <!-- <td><input type="checkbox" class="ml-2"></td> -->
                         <td>
-                            <a th:href="@{/change(id=${product.id})}" style="text-decoration: none;"><span>[[${product.id}]]</span></a>
+                            <a th:href="@{/edit(id=${product.id})}" style="text-decoration: none;"><span>[[${product.id}]]</span></a>
                         </td>
                         <td th:text="${product.name}">PRD</td>
                         <td class="text-right" th:text="${product.price} + ' руб.'">PRC</td>
-                        <td>
+                        <td sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')">
                             <a th:href="@{/del(id=${product.id})}" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></a>
                         </td>
                     </tr>
                     <tr th:unless="${pagecontent.hasContent()}">
-                        <!-- <td><input type="checkbox" class="ml-2"></td> -->
                         <td colspan="4" class="text-center">
                             No items found
                         </td>
@@ -181,7 +152,6 @@
                     </li>
                 </ul>
             </nav>
-        <!-- </form> -->
     </main>
 
     <footer th:replace="fragments/footer.html :: footer" class="footer mt-auto py-3">
