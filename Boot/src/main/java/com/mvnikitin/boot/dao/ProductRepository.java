@@ -1,6 +1,6 @@
 package com.mvnikitin.boot.dao;
 
-import com.mvnikitin.boot.entities.Product;
+import com.mvnikitin.boot.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

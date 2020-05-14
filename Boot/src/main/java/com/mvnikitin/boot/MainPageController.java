@@ -1,15 +1,12 @@
 package com.mvnikitin.boot;
 
-import com.mvnikitin.boot.entities.Product;
-import com.mvnikitin.boot.services.ProductService;
+import com.mvnikitin.boot.entity.Product;
+import com.mvnikitin.boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -51,15 +48,8 @@ public class MainPageController {
 
         uiModel.addAttribute("pagecontent", resultPage);
         uiModel.addAttribute("itemscount", rows.get());
-        uiModel.addAttribute("minprice",
-                minPrice.isPresent() ? minPrice.get().intValue() : null);
-        uiModel.addAttribute("maxprice",
-                maxPrice.isPresent() ? maxPrice.get().intValue() : null);
-        uiModel.addAttribute("sortby",
-                sortBy.isPresent() ? sortBy.get() : null);
-        uiModel.addAttribute("sortdir",
-                sortDirection.isPresent() ? sortDirection.get() : null);
-
+        uiModel.addAttribute("sortby", sortBy.orElse(null));
+        uiModel.addAttribute("sortdir", sortDirection.orElse(null));
 
         return "index";
     }
@@ -71,20 +61,9 @@ public class MainPageController {
         return "index";
     }
 
-    @GetMapping("/edit")
-    public String showProuctForm(
-            Model uiModel, @RequestParam(value = "id") Optional<Long> id) {
-        uiModel.addAttribute("product",
-                productService.findById(id).getContent().get(0));
-        uiModel.addAttribute("isupdate", true);
-        return "product";
-    }
-
-    @GetMapping("/del")
-    public String deleteProduct(@RequestParam(value = "id") Optional<Long> id) {
-        if (id.isPresent()) {
-            productService.remove(id.get());
-        }
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable(value = "id") Long id) {
+        productService.remove(id);
         return "redirect:/";
     }
 }

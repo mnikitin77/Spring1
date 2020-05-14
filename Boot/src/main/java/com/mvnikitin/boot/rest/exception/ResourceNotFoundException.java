@@ -1,12 +1,12 @@
-package com.mvnikitin.boot.rest.exceptions;
+package com.mvnikitin.boot.rest.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ProductNotFoundException
-        extends RuntimeException implements ProductRESTException {
+public class ResourceNotFoundException
+        extends RuntimeException implements ResourceRESTException {
     private HttpStatus httpStatus;
 
-    public ProductNotFoundException(String message) {
+    public ResourceNotFoundException(String message) {
         super(message);
         httpStatus = HttpStatus.NOT_FOUND;
     }

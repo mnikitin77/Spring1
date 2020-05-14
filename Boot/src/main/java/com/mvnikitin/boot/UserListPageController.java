@@ -1,36 +1,34 @@
 package com.mvnikitin.boot;
 
-import com.mvnikitin.boot.services.UserService;
+import com.mvnikitin.boot.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/userlist")
 public class UserListPageController {
-    private UserService userService;
+    private SecurityService securityService;
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
     }
 
     @GetMapping
     public String showUsers(Model uiModel) {
         uiModel.addAttribute("users",
-                userService.findAll());
+                securityService.findAll());
         return "userlist";
     }
 
-    @GetMapping("/edit")
-    public String showUserForm(
-            Model uiModel, @RequestParam(value = "id") Optional<Long> id) {
-//TODO
-        return "user";
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable(value = "id") Long id) {
+        securityService.remove(id);
+        return "redirect:/userlist";
     }
 }

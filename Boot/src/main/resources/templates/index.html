@@ -24,10 +24,10 @@
             <h3 class="table__header__header">Products</h3>
             <p class="text-left h6">Below are all the products initially stored in the repository at the server. You also may add or remove product items.</p>
         </div>
-        <form id="toNewProductForm" th:action="@{/product}" method="GET"></form>
+        <form id="toProductForm" th:action="@{/product}" method="GET"></form>
             <div class="d-flex justify-content-between mb-5">
                 <div class="d-flex justify-content-start align-items-center mx-3" style="width: 180px;">
-                    <button sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')" type="submit" form="toNewProductForm" class="btn btn-outline-primary btn-block">add product</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')" type="submit" form="toProductForm" class="btn btn-outline-primary btn-block">add product</button>
                 </div>
                 <div class="d-flex justify-content-end align-items-center container">                        
                     <a class="btn btn-link" style="text-decoration: none;" data-toggle="collapse" href="#filterBox" role="button" aria-expanded="false" aria-controls="filterBox">
@@ -107,9 +107,9 @@
                         <th scope="col" class="text-right">Price</th>
                         <th scope="col" style="width: 56px;"
                             sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')">
-                            <div style="width: 32px;">
+                            <div style="width: 40px; text-align: center;">
                                 <i class="fas fa-trash"></i>
-                            </div>                
+                            </div>                                        
                         </th>
                     </tr>
                 </thead>
@@ -117,12 +117,14 @@
                     <tr th:if="${pagecontent.hasContent()}" 
                         th:each="product: ${pagecontent.getContent()}">
                         <td>
-                            <a th:href="@{/edit(id=${product.id})}" style="text-decoration: none;"><span>[[${product.id}]]</span></a>
+                            <a th:href="@{/product/} + ${product.id}" style="text-decoration: none;"><span>[[${product.id}]]</span></a>
                         </td>
                         <td th:text="${product.name}">PRD</td>
                         <td class="text-right" th:text="${product.price} + ' руб.'">PRC</td>
                         <td sec:authorize="hasAnyRole('ADMIN', 'SUPERUSER')">
-                            <a th:href="@{/del(id=${product.id})}" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></a>
+                            <form th:action="@{/{id}(id=${product.id})}" th:method="DELETE">
+                                <button type="submit" class="btn btn-link" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></button>
+                            </form>                            
                         </td>
                     </tr>
                     <tr th:unless="${pagecontent.hasContent()}">

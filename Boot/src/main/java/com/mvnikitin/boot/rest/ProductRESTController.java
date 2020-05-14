@@ -1,16 +1,20 @@
 package com.mvnikitin.boot.rest;
 
-import com.mvnikitin.boot.entities.Product;
-import com.mvnikitin.boot.rest.exceptions.ProductConflictException;
-import com.mvnikitin.boot.rest.exceptions.ProductNotFoundException;
-import com.mvnikitin.boot.rest.exceptions.ProductRESTException;
-import com.mvnikitin.boot.services.ProductService;
+import com.mvnikitin.boot.entity.Product;
+import com.mvnikitin.boot.rest.exception.ResourceConflictException;
+import com.mvnikitin.boot.rest.exception.ResourceNotFoundException;
+import com.mvnikitin.boot.rest.exception.ResourceRESTException;
+import com.mvnikitin.boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequestMapping("/api/v1/products")
@@ -31,15 +35,16 @@ public class ProductRESTController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProuctById(@PathVariable Long id) {
         Product result = productService.findById(id).orElseThrow(() ->
-                new ProductNotFoundException("A product with ID=" +
+                new ResourceNotFoundException("A product with ID=" +
                     id + " does not exist"));
         return ResponseEntity.ok(result);
     }
 
+    @Secured("ROLE_API_PRODUCT_ALL")
     @PostMapping
     public ResponseEntity<String> createProduct(@RequestBody Product product) {
         if(productService.findById(product.getId()).isPresent()) {
-            throw new ProductConflictException("The product with ID=" +
+            throw new ResourceConflictException("The product with ID=" +
                     product.getId() + " already exists.");
         }
         product.setId(0L);
@@ -53,19 +58,21 @@ public class ProductRESTController {
                 .build();
     }
 
+    @Secured("ROLE_API_PRODUCT_ALL")
     @PutMapping
     public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
         productService.findById(product.getId()).orElseThrow(() ->
-                new ProductNotFoundException("A product with ID=" +
+                new ResourceNotFoundException("A product with ID=" +
                         product.getId() + " does not exist"));
         productService.save(product);
         return ResponseEntity.noContent().build();
     }
 
+    @Secured("ROLE_API_PRODUCT_ALL")
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
         Product deletedProduct = productService.findById(id).orElseThrow(() ->
-                new ProductNotFoundException("A product with ID=" +
+                new ResourceNotFoundException("A product with ID=" +
                         id + " does not exist"));
         productService.remove(id);
         return ResponseEntity.ok(deletedProduct);
@@ -74,12 +81,18 @@ public class ProductRESTController {
     @ExceptionHandler
     public ResponseEntity<ProductErrorResponse> handleException(Exception e) {
         ProductErrorResponse response = new ProductErrorResponse();
-        HttpStatus httpStatus = (e instanceof ProductRESTException) ?
-                ((ProductRESTException)e).getHTTPStatus() :
-                HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus httpStatus;
+        if (e instanceof AccessDeniedException) {
+            httpStatus = HttpStatus.UNAUTHORIZED;
+        } else if (e instanceof ResourceRESTException) {
+            httpStatus = ((ResourceRESTException)e).getHTTPStatus();
+        } else {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
         response.setMessage(e.getMessage());
         response.setStatus(httpStatus.value());
-        response.setTimestamp(System.currentTimeMillis());
+        response.setTimestamp(LocalDateTime.now());
+        response.setPath(ServletUriComponentsBuilder.fromCurrentRequest().build().getPath());
 
         return new ResponseEntity<ProductErrorResponse>(response, httpStatus);
     }

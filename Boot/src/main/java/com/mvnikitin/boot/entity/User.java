@@ -1,6 +1,7 @@
-package com.mvnikitin.boot.entities;
+package com.mvnikitin.boot.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,11 +14,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "{user.username.notempty}")
     @Column(unique = true, nullable = false)
     private String username;
 
+    @NotBlank(message = "{user.password.notempty}")
     @Column(nullable = false)
     private String password;
+
+    @Transient
+    private String repeatPassword;
 
     @Column(nullable = false)
     private Boolean enabled;
@@ -36,7 +42,10 @@ public class User {
         this(username, password, enabled, new HashSet<>());
     }
 
-    public User(String username, String password, Boolean enabled, Set<Role> roles) {
+    public User(String username,
+                String password,
+                Boolean enabled,
+                Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -81,6 +90,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 
     public String getRolesInString() {

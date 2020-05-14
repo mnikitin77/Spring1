@@ -1,12 +1,12 @@
-package com.mvnikitin.boot.rest.exceptions;
+package com.mvnikitin.boot.rest.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ProductConflictException
-        extends RuntimeException implements ProductRESTException {
+public class ResourceConflictException
+        extends RuntimeException implements ResourceRESTException {
     private HttpStatus httpStatus;
 
-    public ProductConflictException(String message) {
+    public ResourceConflictException(String message) {
         super(message);
         httpStatus = HttpStatus.CONFLICT;
     }

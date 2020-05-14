@@ -1,6 +1,6 @@
-package com.mvnikitin.boot.services;
+package com.mvnikitin.boot.service;
 
-import com.mvnikitin.boot.entities.Product;
+import com.mvnikitin.boot.entity.Product;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

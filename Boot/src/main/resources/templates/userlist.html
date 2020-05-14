@@ -25,17 +25,17 @@
         <form id="toUserForm" th:action="@{/user}" method="GET"></form>
         <div class="d-flex justify-content-between mb-5">
             <div class="d-flex justify-content-start align-items-center mx-3" style="width: 180px;">
-                <button sec:authorize="hasRole('ADMIN')" type="submit" form="toNewProductForm" class="btn btn-outline-primary btn-block">new user</button>
+                <button sec:authorize="hasRole('ADMIN')" type="submit" form="toUserForm" class="btn btn-outline-primary btn-block">new user</button>
             </div>                
         </div>
         <table class="container table table-striped table-hover mb-5">
             <thead>
                 <tr>
-                    <th scope="col" style="text-align: center;">User</th>
+                    <th scope="col">User</th>
                     <th scope="col" style="text-align: center;">Roles</th>
                     <th scope="col" style="width: 56px;"
                         sec:authorize="hasRole('ADMIN')">
-                        <div style="width: 32px;">
+                        <div style="width: 40px; text-align: center;">
                             <i class="fas fa-trash"></i>
                         </div>                
                     </th>
@@ -45,11 +45,14 @@
                 <tr th:if="${users.size() gt 0}" 
                     th:each="user: ${users}">
                     <td>
-                        <a th:href="@{/user(id=${user.id})}" style="text-decoration: none;"><span>[[${user.username}]]</span></a>
+                        <a th:href="@{/user/} + ${user.id}" style="text-decoration: none;"><span>[[${user.username}]]</span></a>
                     </td>
                     <td class="text-center" th:text="${user.getRolesInString()}">RL</td>
                     <td sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{/deluser(id=${user.id})}" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></a>
+                        <!-- <a th:href="@{/deluser(id=${user.id})}" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></a> -->
+                        <form th:action="@{/userlist/{id}(id=${user.id})}" th:method="DELETE">
+                            <button type="submit" class="btn btn-link" style="text-decoration: none;"><i class="fas fa-trash" style="color: lightgrey;"></i></button>
+                        </form>
                     </td>
                 </tr>
                 <tr th:unless="${users.size() gt 0}">

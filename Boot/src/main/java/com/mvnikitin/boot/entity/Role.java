@@ -1,4 +1,4 @@
-package com.mvnikitin.boot.entities;
+package com.mvnikitin.boot.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;
